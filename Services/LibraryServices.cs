@@ -160,6 +160,7 @@ namespace LibraryManagementSystem.Services
         }
 
         // Display all members
+
         public void DisplayMembers()
         {
             try
@@ -171,31 +172,44 @@ namespace LibraryManagementSystem.Services
 
                 if (members.Count == 0)
                 {
-                    Console.WriteLine("No members found.");
+                    Console.WriteLine("\nNo registered members found.");
                     return;
                 }
 
-                Console.WriteLine(
-                    "\n{0,-12} {1,-25} {2,-20} {3,-30}",
-                    "Member ID", "Name", "Contact Number", "Email");
+                Console.WriteLine("\n========== REGISTERED MEMBERS ==========\n");
 
-                Console.WriteLine(new string('-', 90));
+                Console.WriteLine(
+                    $"{"Member ID",-12} {"Name",-25} {"Contact Number",-20} {"Email",-35}");
+
+                Console.WriteLine(new string('-', 95));
 
                 foreach (var member in members)
                 {
+                    string name = member.Name.Length > 25
+                        ? member.Name[..22] + "..."
+                        : member.Name;
+
+                    string contact = member.ContactNumber.Length > 20
+                        ? member.ContactNumber[..17] + "..."
+                        : member.ContactNumber;
+
+                    string email = member.Email.Length > 35
+                        ? member.Email[..32] + "..."
+                        : member.Email;
+
                     Console.WriteLine(
-                        "{0,-12} {1,-25} {2,-20} {3,-30}",
-                        member.MemberId,
-                        member.Name,
-                        member.ContactNumber,
-                        member.Email);
+                        $"{member.MemberId,-12} {name,-25} {contact,-20} {email,-35}");
                 }
+
+                Console.WriteLine(new string('-', 95));
+                Console.WriteLine($"Total registered members: {members.Count}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error displaying members: {ex.Message}");
             }
         }
+
 
         // Register a new member
         public void AddMember(Member member)
