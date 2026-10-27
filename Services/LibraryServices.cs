@@ -112,6 +112,7 @@ namespace LibraryManagementSystem.Services
         }
 
         // Search a book by title
+
         public void SearchBookByTitle(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -123,41 +124,30 @@ namespace LibraryManagementSystem.Services
             try
             {
                 var books = _bookRepository
-                    .GetAllBooksAsync()
+                    .SearchBooksByTitleAsync(title.Trim())
                     .GetAwaiter()
                     .GetResult();
 
-                var matchingBooks = books
-                    .Where(book => book.Title.Contains(
-                        title,
-                        StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-
-                if (matchingBooks.Count == 0)
+                if (books.Count == 0)
                 {
-                    Console.WriteLine("No books found with that title.");
+                    Console.WriteLine($"No books found with title: {title}");
                     return;
                 }
 
-                Console.WriteLine("\n--- SEARCH RESULTS ---");
-
-                foreach (var book in matchingBooks)
+                foreach (var book in books)
                 {
-                    Console.WriteLine($"Book ID: {book.BookId}");
-                    Console.WriteLine($"Title: {book.Title}");
-                    Console.WriteLine($"Author: {book.Author}");
-                    Console.WriteLine($"Category: {book.Category}");
-                    Console.WriteLine($"Price: {book.Price:F2}");
                     Console.WriteLine(
-                        $"Availability: {(book.IsAvailable ? "Available" : "Borrowed")}");
-                    Console.WriteLine(new string('-', 35));
+                        $"ID: {book.BookId} | Title: {book.Title} | Author: {book.Author} | Category: {book.Category} | Price: {book.Price} | Available: {book.IsAvailable}");
                 }
+
+                Console.WriteLine($"Total books found: {books.Count}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error searching for book: {ex.Message}");
+                Console.WriteLine($"Error searching books: {ex.Message}");
             }
         }
+
 
         // Search books by author
         public void SearchBooksByAuthor(string author)

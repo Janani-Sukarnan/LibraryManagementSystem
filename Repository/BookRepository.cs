@@ -183,9 +183,9 @@ namespace LibraryManagementSystem.Repository
             return books;
         }
 
-    
-    
-public async Task<List<Book>> GetBooksByCategoryAsync(string category)
+
+
+        public async Task<List<Book>> GetBooksByCategoryAsync(string category)
         {
             const string query = @"
         SELECT BookId, Title, Author, Category, Price, IsAvailable
@@ -219,6 +219,44 @@ public async Task<List<Book>> GetBooksByCategoryAsync(string category)
 
             return books;
         }
+
+
+
+        public async Task<List<Book>> SearchBooksByTitleAsync(string title)
+        {
+            const string query = @"
+        SELECT BookId, Title, Author, Category, Price, IsAvailable
+        FROM Books
+        WHERE Title LIKE @Title
+        ORDER BY Title";
+
+            var books = new List<Book>();
+
+            await using var connection = new SqlConnection(_connectionString);
+            await using var command = new SqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@Title", $"%{title}%");
+
+            await connection.OpenAsync();
+
+            await using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                books.Add(new Book(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.GetString(2),
+                    reader.GetString(3),
+                    reader.GetDecimal(4))
+                {
+                    IsAvailable = reader.GetBoolean(5)
+                });
+            }
+
+            return books;
+        }
+
 
     }
 }
