@@ -411,7 +411,54 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-    }
-}
     
+    
+public void SearchBooksByCategory(string category)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                Console.WriteLine("Please enter a category.");
+                return;
+            }
+
+            try
+            {
+                var books = _bookRepository
+                    .GetBooksByCategoryAsync(category.Trim())
+                    .GetAwaiter()
+                    .GetResult();
+
+                if (books.Count == 0)
+                {
+                    Console.WriteLine($"No books found in category: {category}");
+                    return;
+                }
+
+                Console.WriteLine($"\n--- BOOKS IN CATEGORY: {category.Trim()} ---");
+
+                Console.WriteLine(
+                    $"{"Book ID",-10} {"Title",-25} {"Author",-20} {"Category",-20} {"Price",10} {"Status",-12}");
+
+                Console.WriteLine(new string('-', 100));
+
+                foreach (var book in books)
+                {
+                    Console.WriteLine(
+                        $"{book.BookId,-10} {book.Title,-25} {book.Author,-20} {book.Category,-20} {book.Price,10:F2} {(book.IsAvailable ? "Available" : "Borrowed"),-12}");
+                }
+
+                Console.WriteLine(new string('-', 100));
+                Console.WriteLine($"Total books found: {books.Count}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error searching by category: {ex.Message}");
+            }
+        }
+    }
+
+
+    }
+
+
 
