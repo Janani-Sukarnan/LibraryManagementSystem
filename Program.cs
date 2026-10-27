@@ -27,11 +27,11 @@ namespace LibraryManagementSystem
                 Console.WriteLine("7. Borrow a Book");
                 Console.WriteLine("8. Return a Book");
                 Console.WriteLine("9. Display Borrowing Records");
-                Console.WriteLine("10. Search Books by Author");
-                Console.WriteLine("11. Exit");
-                Console.WriteLine("12. Search Books by Category");
-                Console.WriteLine("13. Display Library Statistics");
-                Console.WriteLine("14. Display Available Books Only");
+                Console.WriteLine("10. Search Books by Author");   
+                Console.WriteLine("11. Search Books by Category");
+                Console.WriteLine("12. Display Library Statistics");
+                Console.WriteLine("13. Display Available Books Only");
+                Console.WriteLine("14. Exit");
                 Console.Write("Enter your choice: ");
 
                 if (!int.TryParse(Console.ReadLine(), out int choice))
@@ -185,24 +185,26 @@ namespace LibraryManagementSystem
                         service.SearchBooksByAuthor(author1);
                         break;
 
-                    case 11:
-                        Console.WriteLine(
-                            "Thank you for using the Library Management System!");
-                        return;
+                    
 
-                    case 12:
+                    case 11:
                         Console.Write("Enter book category: ");
                         string categorySearch = Console.ReadLine() ?? "";
                         service.SearchBooksByCategory(categorySearch);
                         break;
                     
-                    case 13:
+                    case 12:
                         service.DisplayLibraryStatistics();
                         break;
 
-                    case 14:
+                    case 13:
                         service.DisplayAvailableBooks();
                         break;
+                    
+                    case 14:
+                        Console.WriteLine(
+                            "Thank you for using the Library Management System!");
+                        return;
 
                     default:
                         Console.WriteLine("Invalid choice! Select 1 to 14.");
