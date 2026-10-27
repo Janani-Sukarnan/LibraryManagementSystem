@@ -258,6 +258,41 @@ namespace LibraryManagementSystem.Repository
         }
 
 
+
+
+        public async Task<List<Book>> GetAvailableBooksAsync()
+        {
+            const string query = @"
+        SELECT BookId, Title, Author, Category, Price, IsAvailable
+        FROM Books
+        WHERE IsAvailable = 1
+        ORDER BY Title";
+
+            var books = new List<Book>();
+
+            await using var connection = new SqlConnection(_connectionString);
+            await using var command = new SqlCommand(query, connection);
+
+            await connection.OpenAsync();
+
+            await using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                books.Add(new Book(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.GetString(2),
+                    reader.GetString(3),
+                    reader.GetDecimal(4))
+                {
+                    IsAvailable = reader.GetBoolean(5)
+                });
+            }
+
+            return books;
+        }
+
     }
 }
 

@@ -31,6 +31,7 @@ namespace LibraryManagementSystem
                 Console.WriteLine("11. Exit");
                 Console.WriteLine("12. Search Books by Category");
                 Console.WriteLine("13. Display Library Statistics");
+                Console.WriteLine("14. Display Available Books Only");
                 Console.Write("Enter your choice: ");
 
                 if (!int.TryParse(Console.ReadLine(), out int choice))
@@ -199,8 +200,12 @@ namespace LibraryManagementSystem
                         service.DisplayLibraryStatistics();
                         break;
 
+                    case 14:
+                        service.DisplayAvailableBooks();
+                        break;
+
                     default:
-                        Console.WriteLine("Invalid choice! Select 1 to 13.");
+                        Console.WriteLine("Invalid choice! Select 1 to 14.");
                         break;
                 }
             }

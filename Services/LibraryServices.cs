@@ -480,6 +480,39 @@ namespace LibraryManagementSystem.Services
         }
 
 
+
+
+        public void DisplayAvailableBooks()
+        {
+            try
+            {
+                var books = _bookRepository
+                    .GetAvailableBooksAsync()
+                    .GetAwaiter()
+                    .GetResult();
+
+                if (books.Count == 0)
+                {
+                    Console.WriteLine("No books are currently available.");
+                    return;
+                }
+
+                Console.WriteLine("\n========== AVAILABLE BOOKS ==========");
+
+                foreach (var book in books)
+                {
+                    Console.WriteLine(
+                        $"ID: {book.BookId} | Title: {book.Title} | Author: {book.Author} | Category: {book.Category} | Price: {book.Price:F2}");
+                }
+
+                Console.WriteLine($"Total available books: {books.Count}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error displaying available books: {ex.Message}");
+            }
+        }
+
     }
 }
 
