@@ -159,6 +159,53 @@ namespace LibraryManagementSystem.Services
             }
         }
 
+        // Search books by author
+        public void SearchBooksByAuthor(string author)
+        {
+            if (string.IsNullOrWhiteSpace(author))
+            {
+                Console.WriteLine("Please enter an author name.");
+                return;
+            }
+
+            try
+            {
+                var books = _bookRepository
+                    .SearchBooksByAuthorAsync(author.Trim())
+                    .GetAwaiter()
+                    .GetResult();
+
+                if (books.Count == 0)
+                {
+                    Console.WriteLine(
+                        $"No books found for author: {author}");
+                    return;
+                }
+
+                Console.WriteLine($"\n========== BOOKS BY {author.Trim()} ==========\n");
+
+                Console.WriteLine(
+                    $"{"Book ID",-10} {"Title",-25} {"Author",-20} {"Category",-18} {"Price",10} {"Status",-12}");
+
+                Console.WriteLine(new string('-', 100));
+
+                foreach (var book in books)
+                {
+                    Console.WriteLine(
+                        $"{book.BookId,-10} {book.Title,-25} {book.Author,-20} {book.Category,-18} {book.Price,10:F2} {(book.IsAvailable ? "Available" : "Borrowed"),-12}");
+                }
+
+                Console.WriteLine(new string('-', 100));
+                Console.WriteLine($"Books found: {books.Count}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    $"Error searching by author: {ex.Message}");
+            }
+        }
+
+
         // Display all members
 
         public void DisplayMembers()
@@ -363,4 +410,8 @@ namespace LibraryManagementSystem.Services
                     $"Error displaying borrowing records: {ex.Message}");
             }
         }
+
+    }
+}
+    
 

@@ -27,7 +27,8 @@ namespace LibraryManagementSystem
                 Console.WriteLine("7. Borrow a Book");
                 Console.WriteLine("8. Return a Book");
                 Console.WriteLine("9. Display Borrowing Records");
-                Console.WriteLine("10. Exit");
+                Console.WriteLine("10. Search Books by Author");
+                Console.WriteLine("11. Exit");
                 Console.Write("Enter your choice: ");
 
                 if (!int.TryParse(Console.ReadLine(), out int choice))
@@ -160,12 +161,19 @@ namespace LibraryManagementSystem
                         break;
 
                     case 10:
+                        Console.Write("Enter author name: ");
+                        string author1 = Console.ReadLine() ?? "";
+                        service.SearchBooksByAuthor(author1);
+                        break;
+
+                    case 11:
                         Console.WriteLine(
                             "Thank you for using the Library Management System!");
                         return;
 
+
                     default:
-                        Console.WriteLine("Invalid choice! Select 1 to 10.");
+                        Console.WriteLine("Invalid choice! Select 1 to 11.");
                         break;
                 }
             }

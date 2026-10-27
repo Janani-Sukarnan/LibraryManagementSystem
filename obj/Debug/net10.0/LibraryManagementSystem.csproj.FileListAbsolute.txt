@@ -58,3 +58,4 @@ C:\Users\HP\Desktop\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\ne
 C:\Users\HP\Desktop\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\net10.0\LibraryManagementSystem.pdb
 C:\Users\HP\Desktop\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\net10.0\LibraryManagementSystem.genruntimeconfig.cache
 C:\Users\HP\Desktop\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\net10.0\ref\LibraryManagementSystem.dll
+C:\Users\HP\Desktop\LibraryManagementSystem\LibraryManagementSystem\obj\Debug\net10.0\LibraryManagementSystem.sourcelink.json
