@@ -20,6 +20,7 @@ namespace LibraryManagementSystem.Services
         }
 
         // Display all books
+
         public void DisplayBooks()
         {
             try
@@ -31,34 +32,53 @@ namespace LibraryManagementSystem.Services
 
                 if (books.Count == 0)
                 {
-                    Console.WriteLine("No books found.");
+                    Console.WriteLine("\nNo books found in the library.");
                     return;
                 }
 
-                Console.WriteLine(
-                    "\n{0,-10} {1,-25} {2,-20} {3,-18} {4,-10} {5,-15}",
-                    "Book ID", "Title", "Author", "Category",
-                    "Price", "Availability");
+                Console.WriteLine("\n========== BOOK CATALOGUE ==========\n");
 
-                Console.WriteLine(new string('-', 105));
+                string separator = new string('-', 115);
+
+                Console.WriteLine(separator);
+
+                Console.WriteLine(
+                    $"{"Book ID",-10} {"Title",-25} {"Author",-20} {"Category",-18} {"Price",12} {"Status",-15}");
+
+                Console.WriteLine(separator);
 
                 foreach (var book in books)
                 {
+                    string title = book.Title.Length > 25
+                        ? book.Title[..22] + "..."
+                        : book.Title;
+
+                    string author = book.Author.Length > 20
+                        ? book.Author[..17] + "..."
+                        : book.Author;
+
+                    string category = book.Category.Length > 18
+                        ? book.Category[..15] + "..."
+                        : book.Category;
+
+                    string status = book.IsAvailable
+                        ? "Available"
+                        : "Borrowed";
+
                     Console.WriteLine(
-                        "{0,-10} {1,-25} {2,-20} {3,-18} {4,-10:F2} {5,-15}",
-                        book.BookId,
-                        book.Title,
-                        book.Author,
-                        book.Category,
-                        book.Price,
-                        book.IsAvailable ? "Available" : "Borrowed");
+                        $"{book.BookId,-10} {title,-25} {author,-20} {category,-18} {book.Price,12:F2} {status,-15}");
                 }
+
+                Console.WriteLine(separator);
+                Console.WriteLine($"Total books: {books.Count}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error displaying books: {ex.Message}");
             }
         }
+
+
 
         // Search a book by ID
         public void SearchBookById(int bookId)
