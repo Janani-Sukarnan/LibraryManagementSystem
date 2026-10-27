@@ -314,6 +314,7 @@ namespace LibraryManagementSystem.Services
         }
 
         // Display all borrowing records
+
         public void DisplayBorrowRecords()
         {
             try
@@ -325,31 +326,36 @@ namespace LibraryManagementSystem.Services
 
                 if (records.Count == 0)
                 {
-                    Console.WriteLine("No borrowing records found.");
+                    Console.WriteLine("\nNo borrowing records found.");
                     return;
                 }
 
-                Console.WriteLine(
-                    "\n{0,-12} {1,-10} {2,-12} {3,-22} {4,-22}",
-                    "Borrow ID", "Book ID", "Member ID",
-                    "Borrow Date", "Return Date");
+                Console.WriteLine("\n========== BORROWING HISTORY ==========\n");
 
-                Console.WriteLine(new string('-', 80));
+                Console.WriteLine(
+                    $"{"Borrow ID",-12} {"Book ID",-10} {"Member ID",-12} {"Borrow Date",-20} {"Return Date",-20} {"Status",-12}");
+
+                Console.WriteLine(new string('-', 100));
 
                 foreach (var record in records)
                 {
+                    string borrowDate =
+                        record.BorrowDate.ToString("yyyy-MM-dd HH:mm");
+
                     string returnDate = record.ReturnDate.HasValue
                         ? record.ReturnDate.Value.ToString("yyyy-MM-dd HH:mm")
                         : "Not returned";
 
+                    string status = record.ReturnDate.HasValue
+                        ? "Returned"
+                        : "Borrowed";
+
                     Console.WriteLine(
-                        "{0,-12} {1,-10} {2,-12} {3,-22} {4,-22}",
-                        record.BorrowId,
-                        record.BookId,
-                        record.MemberId,
-                        record.BorrowDate.ToString("yyyy-MM-dd HH:mm"),
-                        returnDate);
+                        $"{record.BorrowId,-12} {record.BookId,-10} {record.MemberId,-12} {borrowDate,-20} {returnDate,-20} {status,-12}");
                 }
+
+                Console.WriteLine(new string('-', 100));
+                Console.WriteLine($"Total borrowing records: {records.Count}");
             }
             catch (Exception ex)
             {
@@ -357,5 +363,4 @@ namespace LibraryManagementSystem.Services
                     $"Error displaying borrowing records: {ex.Message}");
             }
         }
-    }
-}
+
