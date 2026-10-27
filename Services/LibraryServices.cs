@@ -401,9 +401,9 @@ namespace LibraryManagementSystem.Services
             }
         }
 
-    
-    
-public void SearchBooksByCategory(string category)
+
+
+        public void SearchBooksByCategory(string category)
         {
             if (string.IsNullOrWhiteSpace(category))
             {
@@ -445,10 +445,42 @@ public void SearchBooksByCategory(string category)
                 Console.WriteLine($"Error searching by category: {ex.Message}");
             }
         }
-    }
+
+
+        public void DisplayLibraryStatistics()
+        {
+            try
+            {
+                var books = _bookRepository
+                    .GetAllBooksAsync()
+                    .GetAwaiter()
+                    .GetResult();
+
+                var members = _memberRepository
+                    .GetAllMembersAsync()
+                    .GetAwaiter()
+                    .GetResult();
+
+                int totalBooks = books.Count;
+                int availableBooks = books.Count(b => b.IsAvailable);
+                int borrowedBooks = totalBooks - availableBooks;
+                int totalMembers = members.Count;
+
+                Console.WriteLine("\n========== LIBRARY STATISTICS ==========");
+                Console.WriteLine($"Total Books      : {totalBooks}");
+                Console.WriteLine($"Available Books  : {availableBooks}");
+                Console.WriteLine($"Borrowed Books   : {borrowedBooks}");
+                Console.WriteLine($"Registered Members: {totalMembers}");
+                Console.WriteLine("========================================");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error displaying statistics: {ex.Message}");
+            }
+        }
 
 
     }
-
+}
 
 

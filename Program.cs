@@ -30,6 +30,7 @@ namespace LibraryManagementSystem
                 Console.WriteLine("10. Search Books by Author");
                 Console.WriteLine("11. Exit");
                 Console.WriteLine("12. Search Books by Category");
+                Console.WriteLine("13. Display Library Statistics");
                 Console.Write("Enter your choice: ");
 
                 if (!int.TryParse(Console.ReadLine(), out int choice))
@@ -193,9 +194,13 @@ namespace LibraryManagementSystem
                         string categorySearch = Console.ReadLine() ?? "";
                         service.SearchBooksByCategory(categorySearch);
                         break;
+                    
+                    case 13:
+                        service.DisplayLibraryStatistics();
+                        break;
 
                     default:
-                        Console.WriteLine("Invalid choice! Select 1 to 12.");
+                        Console.WriteLine("Invalid choice! Select 1 to 13.");
                         break;
                 }
             }
