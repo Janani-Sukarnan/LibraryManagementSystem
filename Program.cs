@@ -94,11 +94,27 @@ namespace LibraryManagementSystem
                             break;
                         }
 
+
                         Console.Write("Enter Title: ");
                         string newTitle = Console.ReadLine() ?? "";
 
+                        if (string.IsNullOrWhiteSpace(newTitle))
+                        {
+                            Console.WriteLine("Book title cannot be empty!");
+                            break;
+                        }
+
+
+
                         Console.Write("Enter Author: ");
                         string author = Console.ReadLine() ?? "";
+
+                        if (string.IsNullOrWhiteSpace(author))
+                        {
+                            Console.WriteLine("Author name cannot be empty!");
+                            break;
+                        }
+
 
                         Console.Write("Enter Category: ");
                         string category = Console.ReadLine() ?? "";
